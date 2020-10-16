@@ -13,12 +13,11 @@ export default {
 <style scoped>
 .header{
   height: 40px;
-  background:#fafafa;
   border: 1px solid #eee;
 }
 .header p{
   height: 100%;
-  padding: 5px;
+  padding: 5px 10px;
   box-sizing: border-box;
 }
 .header p img{

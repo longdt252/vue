@@ -1,21 +1,31 @@
 <template>
     <li :class="['item clearfix', todoProps.completed ? 'is-completed' : '']">
-        <input type="checkbox" :checked="todoProps.completed" />
+        <input type="checkbox" :checked="todoProps.completed" @change="markItemCompleted" />
         <p>{{ todoProps.title }}</p>
-        <button class="btn_del">Delete</button>
+        <div class="btn_box clearfix">
+            <button class="btn_edit btn" @click="editItem">Edit</button>
+            <button class="btn_del btn" @click="deleteItem">Delete</button>
+        </div>
     </li>
 </template>
 
 <script>
-import { ref } from 'vue'
+// import { ref } from 'vue'
 
 export default {
     name: 'TodosListItem',
     props: ['todoProps'],
-    setup(){
-        const newId = ref('my-id2')
+    setup(props, context){
+        const markItemCompleted = () => {
+            context.emit('item-completed', props.todoProps.id)
+        }
+
+        const deleteItem = () => {
+             context.emit('delete-item', props.todoProps.id)
+        }
         return {
-            newId
+            markItemCompleted,
+            deleteItem
         }
     }
 }
@@ -32,6 +42,9 @@ export default {
         align-items: center;
         position: relative;
     }
+    .item:hover{
+        background: #eee!important;
+    }
     .item:first-child{
         border-top: 1px solid #eee;
     }
@@ -47,14 +60,25 @@ export default {
         display: inline;
         margin-left: 15px;
     }
-    .item button.btn_del{
+    .item .btn_box{
         position: absolute;
         right: 10px;
+    }
+    .item .btn{
         padding: 5px 10px;
-        background: #bf1e2e;
         border: none;
         border-radius: 3px;
         color: #fff;
+    }
+    .item .btn:hover{
+        opacity: 0.8;
+    }
+    .item button.btn_del{
+        background: #bf1e2e;
+        margin-left: 10px;
+    }
+    .item button.btn_edit{
+        background: #20bf1e;
     }
     .item button:hover{
         cursor: pointer;
